@@ -27,3 +27,5 @@ C:\Users\Kacper\Desktop\Project\SportsAppAPI\SportsAppAPI\obj\Debug\net6.0\Sport
 C:\Users\Kacper\Desktop\Project\SportsAppAPI\SportsAppAPI\obj\Debug\net6.0\ref\SportsAppAPI.dll
 C:\Users\Kacper\Desktop\Project\SportsAppAPI\SportsAppAPI\bin\Debug\net6.0\leagues.json
 C:\Users\Kacper\Desktop\Project\SportsAppAPI\SportsAppAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\SportsAppAPI\bin\Debug\net6.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\SportsAppAPI\bin\Debug\net6.0\teams.json

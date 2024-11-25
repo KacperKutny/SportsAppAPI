@@ -3,7 +3,8 @@ using SportsAppAPI.Infrastructure.ApiClients;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
-
+using SportsAppAPI.Infrastructure;
+using SportsAppAPI.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,10 @@ builder.Configuration
     .AddEnvironmentVariables();  // Read environment variables
 
 // Add services to the container.
+
+builder.Services.AddHostedService<LiveMatchUpdateService>();
+builder.Services.AddSingleton<WebSocketHandler>();
+
 
 builder.Services.AddHttpClient<IApiSportsClient, ApiSportsClient>(client =>
 {
@@ -38,6 +43,17 @@ var leagueConfig = new ConfigurationBuilder()
     .Build();
 
 var leagueIds = leagueConfig.GetSection("Leagues").Get<List<int>>() ?? new List<int>();
+
+var teamConfig = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("teams.json", optional: false, reloadOnChange: true)
+    .Build();
+
+var excludedTeamNames = teamConfig.GetSection("ExcludedTeams").Get<List<string>>() ?? new List<string>();
+
+// Add to the DI container
+builder.Services.AddSingleton(excludedTeamNames);
+
 builder.Services.AddSingleton(leagueIds);
 
 builder.Services.AddCors(options =>
@@ -58,7 +74,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseWebSockets();
 
+app.Map("/ws", (context) =>
+{
+    var webSocketHandler = context.RequestServices.GetRequiredService<WebSocketHandler>();
+    return webSocketHandler.HandleWebSocketAsync(context);
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -75,4 +97,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
