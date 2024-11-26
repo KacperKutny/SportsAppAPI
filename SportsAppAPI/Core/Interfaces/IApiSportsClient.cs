@@ -5,14 +5,23 @@ using SportsAppAPI.Core.Models.Players;
 using SportsAppAPI.Core.Models.PlayerTeams;
 using SportsAppAPI.Core.Models.Statistics;
 using SportsAppAPI.Core.Models.Transfers;
+using SportsAppAPI.Core.Models.Leagues;
+using SportsAppAPI.Core.Models.Standings;
 
 namespace SportsAppAPI.Core.Interfaces
 {
     public interface IApiSportsClient
+
+
     {
+
+        //Fixtures
         Task<List<FixtureResponse>> GetFixturesTodayAsync();
 
         Task<List<FixtureResponse>> GetFixturesByDateAsync(string date);
+
+        Task<FixtureApiResponse> GetFixturesForMaxSeasonAndLeagueAsync(int leagueId);
+        //Players
 
         Task<List<PlayerProfileResponse>> SearchPlayersAsync(string playerName);
         Task<PlayerProfileResponse> GetPlayerProfileAsync(int playerId);
@@ -22,14 +31,23 @@ namespace SportsAppAPI.Core.Interfaces
         Task<List<int>> GetPlayerSeasonsAsync(int playerId);
 
         Task<List<PlayerTeamResponse>> GetPlayerTeamsAsync(int playerId);
-
+        
         Task<List<PlayerStatisticsResponse>> GetPlayerStatisticsAsync(int playerId, int season);
 
         Task<List<TransfersResponse>> GetPlayerTransfers(int playerId);
 
         Task<FixtureApiResponse> GetFixturesForSeasonAndTeamAsync(int season,int teamId);
 
+        //Leagues
+        Task<List<LeagueResponse>> SearchLeaguesAsync(string leagueName);
 
+        Task<LeagueResponse> GetLeagueByIdAsync(int leagueId);
+
+        // Standings
+        Task<List<StandingResponse>> GetStandingsForSingleSeasonAsync(int leagueId, int season);
+
+        // Seasons
+        Task<List<int>> GetSeasonsForLeagueAsync(int leagueId);
     }
 
 }

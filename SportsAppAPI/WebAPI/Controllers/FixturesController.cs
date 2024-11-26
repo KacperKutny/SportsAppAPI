@@ -43,5 +43,18 @@ namespace WebAPI.SportsAppAPI.Controllers
             return Ok(filteredFixtures);
         }
 
+        [HttpGet("max-season/{leagueId}")]
+        public async Task<IActionResult> GetFixturesForMaxSeason(int leagueId)
+        {
+            var fixtureApiResponse = await _apiSportsClient.GetFixturesForMaxSeasonAndLeagueAsync(leagueId);
+
+            if (fixtureApiResponse?.Response == null || !fixtureApiResponse.Response.Any())
+            {
+                return NotFound("No fixtures found for the latest season.");
+            }
+
+            return Ok(fixtureApiResponse.Response);
+        }
+
     }
 }
