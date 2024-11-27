@@ -13,6 +13,7 @@ using SportsAppAPI.Core.Models.Statistics;
 using SportsAppAPI.Core.Models.Transfers;
 using SportsAppAPI.Core.Models.Leagues;
 using SportsAppAPI.Core.Models.Standings;
+using SportsAppAPI.Core.Models.TopScorers;
 
 namespace SportsAppAPI.Infrastructure.ApiClients
 {
@@ -155,6 +156,18 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             return apiResponse?.Response ?? new List<PlayerStatisticsResponse>();
         }
 
+        public async Task<List<TopScorersResponse>> GetTopScorersForSeasonAndLeagueAsync(int season, int leagueId)
+        {
+            var endpoint = $"/players/topscorers?league={leagueId}&season={season}";
+            var response = await  _httpClient.GetAsync(endpoint);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<TopScorersApiResponse>(jsonResponse);
+
+            return apiResponse?.Response ?? new List<TopScorersResponse>();
+        }
+
         public async Task<List<TransfersResponse>> GetPlayerTransfers(int playerId)
         {
             var endpoint = "/transfers";
@@ -244,8 +257,6 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             return standings;
         }
 
-
-
-
+        
     }
 }

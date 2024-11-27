@@ -218,6 +218,32 @@ namespace SportsAppAPI.Controllers
         }
 
 
+        // Endpoint to get top scorers for a specific season and league
+        [HttpGet("topscorers")]
+        public async Task<IActionResult> GetTopScorers([FromQuery] int season, [FromQuery] int leagueId)
+        {
+            if (season <= 0 || leagueId <= 0)
+            {
+                return BadRequest(new { error = "Season and League ID are required and must be valid positive integers." });
+            }
+
+            try
+            {
+                // Fetch top scorers from the API client
+                var topScorers = await _apiSportsClient.GetTopScorersForSeasonAndLeagueAsync(season, leagueId);
+
+                if (topScorers == null || !topScorers.Any())
+                {
+                    return NotFound(new { error = "No top scorers found for the provided season and league." });
+                }
+
+                return Ok(topScorers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "An error occurred while processing your request.", details = ex.Message });
+            }
+        }
 
 
 

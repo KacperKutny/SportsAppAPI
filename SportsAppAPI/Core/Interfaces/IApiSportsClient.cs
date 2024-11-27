@@ -7,6 +7,7 @@ using SportsAppAPI.Core.Models.Statistics;
 using SportsAppAPI.Core.Models.Transfers;
 using SportsAppAPI.Core.Models.Leagues;
 using SportsAppAPI.Core.Models.Standings;
+using SportsAppAPI.Core.Models.TopScorers;
 
 namespace SportsAppAPI.Core.Interfaces
 {
@@ -38,6 +39,8 @@ namespace SportsAppAPI.Core.Interfaces
 
         Task<FixtureApiResponse> GetFixturesForSeasonAndTeamAsync(int season,int teamId);
 
+        Task<List<TopScorersResponse>> GetTopScorersForSeasonAndLeagueAsync(int season, int leagueId);
+
         //Leagues
         Task<List<LeagueResponse>> SearchLeaguesAsync(string leagueName);
 
@@ -48,6 +51,8 @@ namespace SportsAppAPI.Core.Interfaces
 
         // Seasons
         Task<List<int>> GetSeasonsForLeagueAsync(int leagueId);
+
+
     }
 
 }
