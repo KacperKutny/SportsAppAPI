@@ -40,6 +40,11 @@ namespace SportsAppAPI.Infrastructure.Services
 
                     foreach (var game in liveGames)
                     {
+                        // Extract the elapsed minutes for each game
+                        var elapsedMinutes = game.Fixture.Status?.Elapsed ?? 0;  // Default to 0 if not available
+                        var homeGoals = game.Goals?.Home ?? 0;  // Get home goals, default to 0 if not available
+                        var awayGoals = game.Goals?.Away ?? 0;  // Get away goals, default to 0 if not available
+
                         // Prepare full match data for WebSocket broadcast
                         var message = new
                         {
@@ -47,7 +52,8 @@ namespace SportsAppAPI.Infrastructure.Services
                             {
                                 id = game.Fixture.Id,
                                 status = game.Fixture.Status,
-                                date = game.Fixture.Date
+                                date = game.Fixture.Date,
+                                elapsedMinutes  // Add elapsed minutes to the message
                             },
                             league = new
                             {
@@ -73,7 +79,11 @@ namespace SportsAppAPI.Infrastructure.Services
                                     winner = game.Teams.Away.Winner
                                 }
                             },
-                            goals = game.Goals,
+                            goals = new
+                            {
+                                home = homeGoals,  // Pass the home goals
+                                away = awayGoals   // Pass the away goals
+                            },
                             score = game.Score
                         };
 
