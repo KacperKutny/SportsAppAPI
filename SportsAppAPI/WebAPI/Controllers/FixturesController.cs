@@ -56,5 +56,44 @@ namespace WebAPI.SportsAppAPI.Controllers
             return Ok(fixtureApiResponse.Response);
         }
 
+        [HttpGet("{fixtureId}/events")]
+        public async Task<IActionResult> GetFixtureEvents(int fixtureId)
+        {
+            var fixtureEventApiResponse = await _apiSportsClient.GetFixtureEventsByFixtureIdAsync(fixtureId);
+
+            if (fixtureEventApiResponse?.Response == null || !fixtureEventApiResponse.Response.Any())
+            {
+                return NotFound("No events found for this fixture.");
+            }
+
+            return Ok(fixtureEventApiResponse.Response);
+        }
+
+        [HttpGet("{fixtureId}/lineups")]
+        public async Task<IActionResult> GetFixtureLineups(int fixtureId)
+        {
+            var fixtureLineupApiResponse = await _apiSportsClient.GetFixtureLineupsByFixtureIdAsync(fixtureId);
+
+            if (fixtureLineupApiResponse?.Response == null || !fixtureLineupApiResponse.Response.Any())
+            {
+                return NotFound("No lineups found for this fixture.");
+            }
+
+            return Ok(fixtureLineupApiResponse.Response);
+        }
+
+        [HttpGet("{fixtureId}/statistics")]
+        public async Task<IActionResult> GetFixtureStatistics(int fixtureId)
+        {
+            var statistics = await _apiSportsClient.GetFixtureStatisticsAsync(fixtureId);
+
+            if (statistics == null || !statistics.Any())
+            {
+                return NotFound($"No statistics found for fixture with ID: {fixtureId}");
+            }
+
+            return Ok(statistics);
+        }
+
     }
 }

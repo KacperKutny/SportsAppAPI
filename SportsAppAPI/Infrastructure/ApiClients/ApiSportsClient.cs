@@ -14,6 +14,9 @@ using SportsAppAPI.Core.Models.Transfers;
 using SportsAppAPI.Core.Models.Leagues;
 using SportsAppAPI.Core.Models.Standings;
 using SportsAppAPI.Core.Models.TopScorers;
+using SportsAppAPI.Core.Models.FixtureEventResponse;
+using SportsAppAPI.Core.Models.FixtureLineups;
+using SportsAppAPI.Core.Models.FixtureStatistics;
 
 namespace SportsAppAPI.Infrastructure.ApiClients
 {
@@ -159,7 +162,7 @@ namespace SportsAppAPI.Infrastructure.ApiClients
         public async Task<List<TopScorersResponse>> GetTopScorersForSeasonAndLeagueAsync(int season, int leagueId)
         {
             var endpoint = $"/players/topscorers?league={leagueId}&season={season}";
-            var response = await  _httpClient.GetAsync(endpoint);
+            var response = await _httpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -257,6 +260,51 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             return standings;
         }
 
-        
+
+
+        //FixturesSummary
+        public async Task<FixtureEventApiResponse> GetFixtureEventsByFixtureIdAsync(int fixtureId)
+        {
+            var endpoint = "/fixtures/events";
+            var requestUri = $"{endpoint}?fixture={fixtureId}";
+
+            var response = await _httpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<FixtureEventApiResponse>(jsonResponse);
+
+            return apiResponse ?? new FixtureEventApiResponse(); // Return the full response structure
+        }
+        public async Task<FixtureLineupResponse> GetFixtureLineupsByFixtureIdAsync(int fixtureId)
+        {
+            var endpoint = "/fixtures/lineups";
+            var requestUri = $"{endpoint}?fixture={fixtureId}";
+
+            var response = await _httpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<FixtureLineupResponse>(jsonResponse);
+
+            return apiResponse ?? new FixtureLineupResponse(); // Return the full response structure
+        }
+
+        public async Task<List<FixtureStatisticsResponse>> GetFixtureStatisticsAsync(int fixtureId)
+        {
+            var endpoint = "/fixtures/statistics";
+            var requestUri = $"{endpoint}?fixture={fixtureId}";
+
+            var response = await _httpClient.GetAsync(requestUri);
+            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var apiResponse = JsonConvert.DeserializeObject<FixtureStatisticsApiResponse>(jsonResponse);
+
+            return apiResponse?.Response ?? new List<FixtureStatisticsResponse>();
+        }
+
+
+
     }
 }
