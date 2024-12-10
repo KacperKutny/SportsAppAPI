@@ -12,7 +12,6 @@ namespace SportsAppAPI.Infrastructure
     {
         private readonly ConcurrentDictionary<string, WebSocket> _connectedClients = new ConcurrentDictionary<string, WebSocket>();
 
-        // Handle new WebSocket connections
         public async Task HandleWebSocketAsync(HttpContext context)
         {
             if (context.WebSockets.IsWebSocketRequest)
@@ -31,7 +30,6 @@ namespace SportsAppAPI.Infrastructure
             }
         }
 
-        // Receive messages from clients
         private async Task ReceiveMessagesAsync(WebSocket socket, string clientId)
         {
             var buffer = new byte[1024 * 4];
@@ -51,7 +49,6 @@ namespace SportsAppAPI.Infrastructure
                     {
                         var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
                         Console.WriteLine($"Received message from {clientId}: {message}");
-                        // Optional: Handle messages from clients if needed
                     }
                 }
             }
@@ -62,7 +59,6 @@ namespace SportsAppAPI.Infrastructure
             }
         }
 
-        // Broadcast messages to all connected WebSocket clients
         public async Task BroadcastMessageAsync(string message)
         {
             var byteArray = Encoding.UTF8.GetBytes(message);

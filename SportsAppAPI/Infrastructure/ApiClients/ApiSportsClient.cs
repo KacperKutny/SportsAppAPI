@@ -73,7 +73,7 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             return apiResponse; // Return the full response structure
         }
 
-        // Fetch player profiles by name (search functionality)
+ 
         public async Task<List<PlayerProfileResponse>> SearchPlayersAsync(string playerName)
         {
             var endpoint = "/players/profiles";
@@ -88,7 +88,7 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             return apiResponse?.Response ?? new List<PlayerProfileResponse>(); // Return players or empty list
         }
 
-        // Fetch specific player profile by player ID
+  
         public async Task<PlayerProfileResponse> GetPlayerProfileAsync(int playerId)
         {
             var endpoint = "/players/profiles";
@@ -282,12 +282,12 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var requestUri = $"{endpoint}?fixture={fixtureId}";
 
             var response = await _httpClient.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<FixtureLineupResponse>(jsonResponse);
 
-            return apiResponse ?? new FixtureLineupResponse(); // Return the full response structure
+            return apiResponse ?? new FixtureLineupResponse(); 
         }
 
         public async Task<List<FixtureStatisticsResponse>> GetFixtureStatisticsAsync(int fixtureId)
@@ -296,7 +296,7 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var requestUri = $"{endpoint}?fixture={fixtureId}";
 
             var response = await _httpClient.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<FixtureStatisticsApiResponse>(jsonResponse);

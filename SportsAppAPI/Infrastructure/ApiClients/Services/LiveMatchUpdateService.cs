@@ -27,10 +27,10 @@ namespace SportsAppAPI.Infrastructure.Services
             {
                 try
                 {
-                    // Fetch live fixtures
+                   
                     var liveFixtures = await _apiSportsClient.GetFixturesByDateAsync(DateTime.UtcNow.ToString("yyyy-MM-dd"));
 
-                    // Filter live matches by league and status
+                    
                     var liveGames = liveFixtures
                         .Where(fixture => _leagueIds.Contains(fixture.League.Id) &&
                                           (fixture.Fixture.Status?.Long == "First Half" ||
@@ -40,12 +40,11 @@ namespace SportsAppAPI.Infrastructure.Services
 
                     foreach (var game in liveGames)
                     {
-                        // Extract the elapsed minutes for each game
-                        var elapsedMinutes = game.Fixture.Status?.Elapsed ?? 0;  // Default to 0 if not available
-                        var homeGoals = game.Goals?.Home ?? 0;  // Get home goals, default to 0 if not available
-                        var awayGoals = game.Goals?.Away ?? 0;  // Get away goals, default to 0 if not available
+                        
+                        var elapsedMinutes = game.Fixture.Status?.Elapsed ?? 0;  
+                        var homeGoals = game.Goals?.Home ?? 0;  
+                        var awayGoals = game.Goals?.Away ?? 0;  
 
-                        // Prepare full match data for WebSocket broadcast
                         var message = new
                         {
                             fixture = new
@@ -53,7 +52,7 @@ namespace SportsAppAPI.Infrastructure.Services
                                 id = game.Fixture.Id,
                                 status = game.Fixture.Status,
                                 date = game.Fixture.Date,
-                                elapsedMinutes  // Add elapsed minutes to the message
+                                elapsedMinutes  
                             },
                             league = new
                             {
@@ -81,16 +80,16 @@ namespace SportsAppAPI.Infrastructure.Services
                             },
                             goals = new
                             {
-                                home = homeGoals,  // Pass the home goals
-                                away = awayGoals   // Pass the away goals
+                                home = homeGoals,  
+                                away = awayGoals   
                             },
                             score = game.Score
                         };
 
-                        // Serialize to JSON
+                        
                         var jsonMessage = JsonSerializer.Serialize(message);
 
-                        // Send the message to all connected clients
+                       
                         await _webSocketHandler.BroadcastMessageAsync(jsonMessage);
                     }
                 }
@@ -99,7 +98,7 @@ namespace SportsAppAPI.Infrastructure.Services
                     Console.WriteLine($"Error in LiveMatchUpdateService: {ex.Message}");
                 }
 
-                // Wait for 30 seconds before fetching updates again
+                
                 await Task.Delay(60100, stoppingToken);
             }
         }

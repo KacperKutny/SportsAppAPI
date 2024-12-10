@@ -20,9 +20,8 @@ namespace WebAPI.SportsAppAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFixturesByDate([FromQuery] string date)
         {
-            var allFixtures = await _apiSportsClient.GetFixturesByDateAsync(date); // Fetch fixtures for the given date
+            var allFixtures = await _apiSportsClient.GetFixturesByDateAsync(date); 
 
-            // Filter fixtures based on the league IDs and status (finished or not started)
             var filteredFixtures = allFixtures
                 .Where(fixtureResponse =>
                     _leagueIds.Contains(fixtureResponse.League.Id))

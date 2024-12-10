@@ -19,13 +19,12 @@ namespace SportsAppAPI.Core.Interfaces
 
     {
 
-        //Fixtures
         Task<List<FixtureResponse>> GetFixturesTodayAsync();
 
         Task<List<FixtureResponse>> GetFixturesByDateAsync(string date);
 
         Task<FixtureApiResponse> GetFixturesForMaxSeasonAndLeagueAsync(int leagueId);
-        //Players
+       
 
         Task<List<PlayerProfileResponse>> SearchPlayersAsync(string playerName);
         Task<PlayerProfileResponse> GetPlayerProfileAsync(int playerId);
@@ -44,7 +43,7 @@ namespace SportsAppAPI.Core.Interfaces
 
         Task<List<TopScorersResponse>> GetTopScorersForSeasonAndLeagueAsync(int season, int leagueId);
 
-        //Leagues
+ 
         Task<List<LeagueResponse>> SearchLeaguesAsync(string leagueName);
 
         Task<LeagueResponse> GetLeagueByIdAsync(int leagueId);

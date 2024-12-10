@@ -20,7 +20,6 @@ namespace SportsAppAPI.Controllers
             _excludedTeamNames = excludedTeamNames;
         }
 
-        // Endpoint to search players by name
         [HttpGet]
         public async Task<IActionResult> SearchPlayers([FromQuery] string search)
         {
@@ -49,7 +48,6 @@ namespace SportsAppAPI.Controllers
 
 
 
-        // Endpoint to get a player by their ID
         [HttpGet("{playerId}")]
         public async Task<IActionResult> GetPlayerProfile([FromRoute] int playerId)
         {
@@ -72,12 +70,10 @@ namespace SportsAppAPI.Controllers
                 return NotFound($"No squads found for player ID {playerId}.");
             }
 
-            // Filter squads here to exclude those with teams listed in _excludedTeamNames
             var filteredSquads = squads
                 .Where(squad => squad.Team != null && !_excludedTeamNames.Contains(squad.Team.Name))
                 .ToList();
 
-            // Check if any squads remain after filtering
             if (!filteredSquads.Any())
             {
                 return NotFound($"No squads found for player ID {playerId} that are not in the excluded teams.");
@@ -218,7 +214,6 @@ namespace SportsAppAPI.Controllers
         }
 
 
-        // Endpoint to get top scorers for a specific season and league
         [HttpGet("topscorers")]
         public async Task<IActionResult> GetTopScorers([FromQuery] int season, [FromQuery] int leagueId)
         {
