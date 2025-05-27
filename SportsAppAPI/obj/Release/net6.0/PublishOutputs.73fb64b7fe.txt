@@ -1,0 +1,15 @@
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\SportsAppAPI.exe
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\appsettings.Development.json
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\appsettings.json
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\leagues.json
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\teams.json
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\SportsAppAPI.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\SportsAppAPI.deps.json
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\SportsAppAPI.runtimeconfig.json
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\SportsAppAPI.pdb
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\Microsoft.OpenApi.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\Newtonsoft.Json.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Kacper\Desktop\Project\SportsAppAPI\folder_docelowy\System.Net.WebSockets.WebSocketProtocol.dll

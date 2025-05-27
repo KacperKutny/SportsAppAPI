@@ -92,7 +92,6 @@ namespace SportsAppAPI.WebAPI.Controllers
 
             try
             {
-                // Fetch standings for a single season
                 var standings = await _apiSportsClient.GetStandingsForSingleSeasonAsync(id, season);
 
                 if (standings == null || standings.Count == 0)

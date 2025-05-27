@@ -1,17 +1,15 @@
 using SportsAppAPI.Core.Interfaces;
 using SportsAppAPI.Infrastructure.ApiClients;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using System.Net.Http.Headers;
+
 using SportsAppAPI.Infrastructure;
 using SportsAppAPI.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory())  // Make sure the base path is correct
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)  // Read appsettings.json (optional)
-    .AddEnvironmentVariables();  // Read environment variables
+    .SetBasePath(Directory.GetCurrentDirectory())  
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)  
+    .AddEnvironmentVariables();  
 
 // Add services to the container.
 
@@ -51,7 +49,6 @@ var teamConfig = new ConfigurationBuilder()
 
 var excludedTeamNames = teamConfig.GetSection("ExcludedTeams").Get<List<string>>() ?? new List<string>();
 
-// Add to the DI container
 builder.Services.AddSingleton(excludedTeamNames);
 
 builder.Services.AddSingleton(leagueIds);
@@ -60,7 +57,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // React app URL
+        policy.WithOrigins("http://localhost:3000") 
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();

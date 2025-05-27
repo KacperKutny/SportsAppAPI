@@ -30,10 +30,9 @@ namespace SportsAppAPI.Controllers
 
             try
             {
-                // Fetch players from the API client
+          
                 var players = await _apiSportsClient.SearchPlayersAsync(search);
 
-                // Filter out players with an invalid or "N/A" birth date
                 var filteredPlayers = players
                     .Where(player => player.Player.Birth != null && !string.IsNullOrEmpty(player.Player.Birth.Date) && player.Player.Birth.Date != "N/A")
                     .ToList();
@@ -224,7 +223,6 @@ namespace SportsAppAPI.Controllers
 
             try
             {
-                // Fetch top scorers from the API client
                 var topScorers = await _apiSportsClient.GetTopScorersForSeasonAndLeagueAsync(season, leagueId);
 
                 if (topScorers == null || !topScorers.Any())

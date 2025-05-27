@@ -51,26 +51,23 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<FixtureApiResponse>(jsonResponse);
 
-            return apiResponse?.Response ?? new List<FixtureResponse>(); // Return fixtures, or an empty list if none
+            return apiResponse?.Response ?? new List<FixtureResponse>(); 
         }
 
         public async Task<FixtureApiResponse> GetFixturesForMaxSeasonAndLeagueAsync(int leagueId)
         {
-            // Step 1: Get the list of seasons for the given league
             var seasons = await GetSeasonsForLeagueAsync(leagueId);
 
-            // Step 2: Find the maximum season year
             var maxSeason = seasons.Max();
 
-            // Step 3: Fetch fixtures for the max season for the given league
             var endpoint = $"/fixtures?league={leagueId}&season={maxSeason}";
             var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<FixtureApiResponse>(jsonResponse);
 
-            return apiResponse; // Return the full response structure
+            return apiResponse; 
         }
 
  
@@ -80,12 +77,12 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var requestUri = $"{endpoint}?search={playerName}";
 
             var response = await _httpClient.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<PlayerApiResponse>(jsonResponse);
 
-            return apiResponse?.Response ?? new List<PlayerProfileResponse>(); // Return players or empty list
+            return apiResponse?.Response ?? new List<PlayerProfileResponse>(); 
         }
 
   
@@ -100,7 +97,7 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<PlayerApiResponse>(jsonResponse);
 
-            return apiResponse?.Response?.FirstOrDefault(); // Return first profile or null
+            return apiResponse?.Response?.FirstOrDefault(); 
         }
 
 
@@ -110,12 +107,12 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var requestUri = $"{endpoint}?player={playerId}";
 
             var response = await _httpClient.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<PlayerSquadApiResponse>(jsonResponse);
 
-            // Apply filtering before returning squads
+         
             var filteredSquads = apiResponse?.Response
                 .Where(squad => squad.Team != null && !_excludedTeamNames.Contains(squad.Team.Name))
                 .ToList() ?? new List<PlayerSquadResponse>();
@@ -189,14 +186,14 @@ namespace SportsAppAPI.Infrastructure.ApiClients
         {
             var endpoint = $"/fixtures?season={season}&team={teamId}";
             var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            // Deserialize the entire API response into FixtureApiResponse
+           
             var apiResponse = JsonConvert.DeserializeObject<FixtureApiResponse>(jsonResponse);
 
-            return apiResponse; // Return the full response structure
+            return apiResponse; 
         }
 
         public async Task<List<LeagueResponse>> SearchLeaguesAsync(string leagueName)
@@ -220,19 +217,19 @@ namespace SportsAppAPI.Infrastructure.ApiClients
         {
             var endpoint = $"/leagues?id={leagueId}";
             var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<LeagueApiResponse>(jsonResponse);
 
-            return apiResponse?.Response?.FirstOrDefault(); // Return the first league or null
+            return apiResponse?.Response?.FirstOrDefault(); 
         }
 
         public async Task<List<int>> GetSeasonsForLeagueAsync(int leagueId)
         {
             var endpoint = $"/leagues?id={leagueId}";
             var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<LeagueApiResponse>(jsonResponse);
@@ -243,11 +240,11 @@ namespace SportsAppAPI.Infrastructure.ApiClients
         {
             var standings = new List<StandingResponse>();
 
-            // Build the endpoint URL for a specific season
+           
             var endpoint = $"/standings?league={leagueId}&season={season}";
 
             var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<StandingApiResponse>(jsonResponse);
@@ -269,12 +266,12 @@ namespace SportsAppAPI.Infrastructure.ApiClients
             var requestUri = $"{endpoint}?fixture={fixtureId}";
 
             var response = await _httpClient.GetAsync(requestUri);
-            response.EnsureSuccessStatusCode(); // Ensure HTTP success
+            response.EnsureSuccessStatusCode(); 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<FixtureEventApiResponse>(jsonResponse);
 
-            return apiResponse ?? new FixtureEventApiResponse(); // Return the full response structure
+            return apiResponse ?? new FixtureEventApiResponse(); 
         }
         public async Task<FixtureLineupResponse> GetFixtureLineupsByFixtureIdAsync(int fixtureId)
         {

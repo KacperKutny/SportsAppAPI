@@ -27,10 +27,7 @@ namespace SportsAppAPI.Infrastructure.Services
             {
                 try
                 {
-                   
                     var liveFixtures = await _apiSportsClient.GetFixturesByDateAsync(DateTime.UtcNow.ToString("yyyy-MM-dd"));
-
-                    
                     var liveGames = liveFixtures
                         .Where(fixture => _leagueIds.Contains(fixture.League.Id) &&
                                           (fixture.Fixture.Status?.Long == "First Half" ||
@@ -40,43 +37,16 @@ namespace SportsAppAPI.Infrastructure.Services
 
                     foreach (var game in liveGames)
                     {
-                        
                         var elapsedMinutes = game.Fixture.Status?.Elapsed ?? 0;  
                         var homeGoals = game.Goals?.Home ?? 0;  
                         var awayGoals = game.Goals?.Away ?? 0;  
 
                         var message = new
                         {
-                            fixture = new
-                            {
-                                id = game.Fixture.Id,
-                                status = game.Fixture.Status,
-                                date = game.Fixture.Date,
-                                elapsedMinutes  
-                            },
-                            league = new
-                            {
-                                id = game.League.Id,
-                                name = game.League.Name,
-                                logo = game.League.Logo,
-                                flag = game.League.Flag
-                            },
-                            teams = new
-                            {
-                                home = new
-                                {
-                                    id = game.Teams.Home.Id,
-                                    name = game.Teams.Home.Name,
-                                    logo = game.Teams.Home.Logo,
-                                    winner = game.Teams.Home.Winner
-                                },
-                                away = new
-                                {
-                                    id = game.Teams.Away.Id,
-                                    name = game.Teams.Away.Name,
-                                    logo = game.Teams.Away.Logo,
-                                    winner = game.Teams.Away.Winner
-                                }
+                            fixture = new { id = game.Fixture.Id, status = game.Fixture.Status, date = game.Fixture.Date, elapsedMinutes},
+                            league = new { id = game.League.Id, name = game.League.Name, logo = game.League.Logo, flag = game.League.Flag},
+                            teams = new { home = new { id = game.Teams.Home.Id, name = game.Teams.Home.Name,logo = game.Teams.Home.Logo, winner = game.Teams.Home.Winner},
+                                away = new { id = game.Teams.Away.Id,  name = game.Teams.Away.Name,  logo = game.Teams.Away.Logo,  winner = game.Teams.Away.Winner }
                             },
                             goals = new
                             {
@@ -99,7 +69,7 @@ namespace SportsAppAPI.Infrastructure.Services
                 }
 
                 
-                await Task.Delay(60100, stoppingToken);
+                await Task.Delay(60000, stoppingToken);
             }
         }
     }
